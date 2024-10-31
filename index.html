@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup Account</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: #fff;
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+            width: 400px;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        input {
+            margin-bottom: 15px;
+        }
+
+        .btn-primary {
+            background-color: #2575fc;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #6a11cb;
+        }
+
+        .footer {
+            margin-top: 20px;
+            color: #ddd;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Signup Account</h1>
+        <input type="text" id="username" class="form-control" placeholder="Username" required><br>
+        <input type="email" id="useremail" class="form-control" placeholder="Email" required><br>
+        <input type="password" id="userpassword" class="form-control" placeholder="Password" required><br>
+        <button class="btn btn-primary" onclick="signup()">Signup</button><br>
+        <div class="footer">
+            Already have an account? <a href="login.html" class="text-warning">Login</a>
+        </div>
+    </div>
+
+    <script>
+        function signup() {
+            const username = document.querySelector("#username").value;
+            const useremail = document.querySelector("#useremail").value;
+            const userpassword = document.querySelector("#userpassword").value;
+            let users = JSON.parse(localStorage.getItem("users")) || [];
+            const emailExists = users.some(user => user.email === useremail);
+            if (emailExists) {
+                alert("This email is already registered. Please use a different email.");
+                return;
+            }
+            const nameExists = users.some(user => user.name === username);
+            if (nameExists) {
+                alert("This username is already registered. Please use a different username.");
+                return;
+            }
+
+            let newUsers = {
+                name: username,
+                email: useremail,
+                password: userpassword // Fixed spelling from "pasword" to "password"
+            };
+            users.push(newUsers);
+            localStorage.setItem("users", JSON.stringify(users));
+
+            if (username === "" || useremail === "" || userpassword === "") {
+                alert("Please fill in all fields.");
+                return;
+            } else {
+                alert("Signup successful!");
+                window.location.href = "login.html";
+            }
+        }
+    </script>
+</body>
+
+</html>
